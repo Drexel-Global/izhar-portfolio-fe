@@ -1,12 +1,16 @@
 import styles from "./page.module.css";
 
 async function fetchHomePageData() {
-  const res = await fetch("http://localhost:1337/api/homepages?populate=*", {
-    next: { revalidate: 0 },
-  });
-  const data = await res.json();
+  const currentEnvUrls: string =
+    process.env.NEXT_PUBLIC_NODE_ENV === "development"
+      ? "http://localhost:1337/api/homepages?populate=*"
+      : "https://izhar-strapi.onrender.com/api/homepages?populate=*";
+
+  const res = await fetch(currentEnvUrls, { next: { revalidate: 0 } });
+
   if (res.status !== 200) throw new Error("Failed to fetch data");
-  return data;
+
+  return res.json();
 }
 
 export default async function Home() {
