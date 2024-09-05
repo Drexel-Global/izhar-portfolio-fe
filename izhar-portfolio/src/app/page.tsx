@@ -10,7 +10,7 @@ async function fetchHomePageData() {
 
   if (res.status !== 200) throw new Error("Failed to fetch data");
 
-  return res.json();
+  return await res.json();
 }
 
 export default async function Home() {
